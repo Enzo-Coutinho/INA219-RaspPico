@@ -35,7 +35,7 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(INA219 INA219.c i2c/i2c_driver.c)
+add_executable(INA219 INA219.c i2c/i2c_driver.c ina219/ina219.c)
 
 pico_set_program_name(INA219 "INA219")
 pico_set_program_version(INA219 "0.1")

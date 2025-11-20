@@ -41,6 +41,10 @@
         "*.html": "jinja-html",
         "*.inc": "cpp",
         "i2c.h": "c",
-        "cstdint": "cpp"
+        "cstdint": "cpp",
+        "i2c_driver.h": "c",
+        "binary_info.h": "c",
+        "string_view": "c",
+        "random": "c"
     }
 }

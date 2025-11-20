@@ -1,0 +1,110 @@
+#ifndef REGISTERS_H
+#define REGISTERS_H
+
+typedef unsigned char u8;
+typedef unsigned short int u16;
+
+/*    ADRESS SLAVE
+========================
+    GND GND 1000000
+    GND VS+ 1000001
+    GND SDA 1000010
+    GND SCL 1000011
+    VS+ GND 1000100
+    VS+ VS+ 1000101
+    VS+ SDA 1000110
+    VS+ SCL 1000111
+    SDA GND 1001000
+    SDA VS+ 1001001
+    SDA SDA 1001010
+    SDA SCL 1001011
+    SCL GND 1001100
+    SCL VS+ 1001101
+    SCL SDA 1001110
+    SCL SCL 1001111
+=======================
+*/
+
+#define INA219_ADDRESS_GND_GND  0b1000000
+#define INA219_ADDRESS_GND_VS   0b1000001
+#define INA219_ADDRESS_GND_SDA  0b1000010
+#define INA19__ADDRESS_GND_SCL  0b1000011
+#define INA219_ADDRESS_VS_GND   0b1000100
+#define INA219_ADDRESS_VS_VS    0b1000101
+#define INA219_ADDRESS_VS_SDA   0b1000110
+#define INA219_ADDRESS_VS_SCL   0b1000111
+#define INA219_ADDRESS_SDA_GND  0b1001000
+#define INA219_ADDRESS_SDA_VS   0b1001001
+#define INA219_ADDRESS_SDA_SDA  0b1001010
+#define INA219_ADDRESS_SDA_SCL  0b1001011
+#define INA219_ADDRESS_SCL_GND  0b1001100
+#define INA219_ADDRESS_SCL_VS   0b1001101
+#define INA219_ADDRESS_SCL_SDA  0b1001110
+#define INA219_ADDRESS_SCL_SCL  0b1001111
+
+
+
+enum REGISTERS {
+    __ADDR_CONFIGURATION = 0x00,
+    __ADDR_SHUNT_VOLTAGE = 0x01,
+    __ADDR_BUS_VOLTAGE = 0x02,
+    __ADDR_POWER = 0x03,
+    __ADDR_CURRENT = 0x04,
+    __ADDR_CALIBRATION = 0x05
+};
+
+enum MODES {
+    POWER_DOWN = 0x00,
+    SHUNT_VOLTAGE_TRIGGERED = 0x01,
+    BUS_VOLTAGE_TRIGGERED = 0x02,
+    SHUNT_AND_BUS_TRIGGERED = 0x03,
+    ADC_OFF = 0x04,
+    SHUNT_VOLTAGE_CONTINUOUS = 0x05,
+    BUS_VOLTAGE_CONTINUOUS = 0x06,
+    SHUNT_AND_BUS_CONTINUOUS = 0x07
+};
+
+enum ADC_RESOLUTION {
+    ADC_RES_9BIT      = 0x0, 
+    ADC_RES_10BIT     = 0x1, 
+    ADC_RES_11BIT     = 0x2, 
+    ADC_RES_12BIT     = 0x3,  
+    ADC_RES_12BIT_ALT = 0x8, 
+
+    ADC_RES_2_SAMPLES  = 0x9,
+    ADC_RES_4_SAMPLES  = 0xA,  
+    ADC_RES_8_SAMPLES  = 0xB,  
+    ADC_RES_16_SAMPLES = 0xC,  
+    ADC_RES_32_SAMPLES = 0xD,  
+    ADC_RES_64_SAMPLES = 0xE,  
+    ADC_RES_128_SAMPLES= 0xF    
+};
+
+enum PGA_GAIN {
+    _40mV = 0x00,
+    _80mV = 0x01,
+    _160mV = 0x02,
+    _320mV = 0x03
+};
+
+enum BUS_VOLTAGE_RANGE {
+    _16V = 0x00,
+    _32V = 0x01
+};
+
+union configuration_t {
+    struct configuration_bitmap_t {
+        u16 MODES : 3;
+        u16 SADC : 4;
+        u16 BADC : 4;
+        u16 PG : 2;
+        u16 BRNG : 1;
+        u16 : 1;
+        u16 RST : 1;
+    } _configuration_bitmap;
+    u16 configuration;
+};
+
+
+
+#endif
