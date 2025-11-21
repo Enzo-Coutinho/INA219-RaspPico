@@ -1,11 +1,18 @@
 #ifndef I2C_DRIVER_H
 #define I2C_DRIVER_H
 
-#include "pico/stdlib.h"
-#include "pico/binary_info.h"
-#include "hardware/i2c.h"
+#include <inttypes.h>
+#include <stddef.h>
 
-void init_i2c_comm(i2c_inst_t * i2c_port, const uint sda, const uint scl, const uint freq_hz);
+#define _400kHz (400e3)
+#define _100kHz (100e3)
+
+enum I2C_BUS {
+    I2C_0,
+    I2C_1,
+};
+
+void init_i2c_comm(enum I2C_BUS i2c_bus, const uint8_t sda, const uint8_t scl, const uint32_t freq_hz);
 
 int i2c_write(const uint8_t address, const uint8_t *data, const size_t length);
 int i2c_read(const uint8_t address, const uint8_t reg, uint8_t *data, const size_t length);

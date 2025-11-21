@@ -1,6 +1,5 @@
 #include "ina219.h"
 #include "registers.h"
-#include "i2c/i2c_driver.h"
 #include <math.h>
 
 const size_t LENGHT = 2;
@@ -8,47 +7,50 @@ int ADDRESS;
 
 float current_lsb;
 
-union configuration_t configuration_ina219 = {.configuration = 0x0};
+union configuration_t configuration_ina219 = {.configuration = DEFAULT_VALUE_CONFIGURATION};
 
 void set_configuration(union configuration_t * configure);
 void get_configuration(union configuration_t * configure);
 
-void calibrateINA219(const float maxCurrent, const float resistance_shunt);
-
 uint16_t read_register(enum REGISTERS reg);
 void write_register(enum REGISTERS reg, const uint16_t data);
 
-void initializeINA219(const int sda, const int scl, const int freq, const int address_i2c) {
+void setAddressINA219(const int address_i2c) {
     ADDRESS = address_i2c;
-    init_i2c_comm(i2c0, sda, scl, freq);
+}
+
+int isConnectedINA219(void) {
+
 }
 
 void resetINA219(void) {
     configuration_ina219._configuration_bitmap.RST = 1;
     set_configuration(&configuration_ina219);
+
+    get_configuration(&configuration_ina219);
 }
 
-void setBusVoltageRange(enum BUS_VOLTAGE_RANGE range) {
+void setBusVoltageRangeINA219(enum BUS_VOLTAGE_RANGE range) {
     configuration_ina219._configuration_bitmap.BRNG = range;
     set_configuration(&configuration_ina219);
 }
 
-void setShuntVoltageRange(enum PGA_GAIN gain) {
+void setShuntVoltageRangeINA219(enum PGA_GAIN gain) {
     configuration_ina219._configuration_bitmap.PG = gain;
     set_configuration(&configuration_ina219);
 } 
 
-void setBusVoltageResolution(enum ADC_RESOLUTION resolution) {
+void setBusVoltageResolutionINA219(enum ADC_RESOLUTION resolution) {
     configuration_ina219._configuration_bitmap.BADC = resolution;
     set_configuration(&configuration_ina219);
 }
 
-void setShuntVoltageResolution(enum ADC_RESOLUTION resolution) {
+void setShuntVoltageResolutionINA219(enum ADC_RESOLUTION resolution) {
     configuration_ina219._configuration_bitmap.SADC = resolution;
     set_configuration(&configuration_ina219);
 }
 
-void setMode(enum MODES mode) {
+void setModeINA219(enum MODES mode) {
     configuration_ina219._configuration_bitmap.MODES = mode;
     set_configuration(&configuration_ina219);
 }
