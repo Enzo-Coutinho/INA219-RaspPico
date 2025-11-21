@@ -35,6 +35,7 @@ int i2c_read(const uint8_t address, const uint8_t reg, uint8_t *data, size_t len
 int i2c_device_is_connected(const uint8_t address) {
     uint8_t data;
     int isFind = i2c_read_blocking(i2c_port, address, &data, 1, false);
+    return isFind != PICO_ERROR_GENERIC ? 1 : 0;
 }
 
 int i2c_is_started(void) {

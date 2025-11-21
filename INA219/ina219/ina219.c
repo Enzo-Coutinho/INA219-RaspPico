@@ -20,15 +20,7 @@ void setAddressINA219(const int address_i2c) {
 }
 
 int isConnectedINA219(void) {
-    printf("I2C Bus Scan:\n");
-    for (uint8_t addr = 0x08; addr < 0x78; addr++) {
-        uint8_t rxdata;
-        int ret = i2c_read_blocking(I2C_PORT, addr, &rxdata, 1, false);
-        if (ret != PICO_ERROR_GENERIC) { // PICO_ERROR_GENERIC indicates no ACK
-            printf("Found device at I2C address 0x%02X\n", addr);
-        }
-    }
-    printf("Scan complete.\n");
+    return i2c_device_is_connected(ADDRESS);
 }
 
 void resetINA219(void) {
@@ -116,7 +108,6 @@ uint16_t read_register(enum REGISTERS reg) {
 }
 
 void write_register(enum REGISTERS reg, const uint16_t data) {
-    const size_t adapt_lenght = LENGHT + 1;
     const uint8_t data_format[] = {reg, (uint8_t)(data & 0xFF), (uint8_t)((data & 0xFF00) >> 8)};
-    i2c_write(ADDRESS, data_format, adapt_lenght);
+    i2c_write(ADDRESS, data_format, LENGHT + 1);
 }
