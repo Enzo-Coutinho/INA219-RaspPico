@@ -17,4 +17,6 @@ void init_i2c_comm(enum I2C_BUS i2c_bus, const uint8_t sda, const uint8_t scl, c
 int i2c_write(const uint8_t address, const uint8_t *data, const size_t length);
 int i2c_read(const uint8_t address, const uint8_t reg, uint8_t *data, const size_t length);
 
+int i2c_find_device(const uint8_t address);
+
 #endif

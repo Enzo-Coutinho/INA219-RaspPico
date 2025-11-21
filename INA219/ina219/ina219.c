@@ -20,7 +20,15 @@ void setAddressINA219(const int address_i2c) {
 }
 
 int isConnectedINA219(void) {
-
+    printf("I2C Bus Scan:\n");
+    for (uint8_t addr = 0x08; addr < 0x78; addr++) {
+        uint8_t rxdata;
+        int ret = i2c_read_blocking(I2C_PORT, addr, &rxdata, 1, false);
+        if (ret != PICO_ERROR_GENERIC) { // PICO_ERROR_GENERIC indicates no ACK
+            printf("Found device at I2C address 0x%02X\n", addr);
+        }
+    }
+    printf("Scan complete.\n");
 }
 
 void resetINA219(void) {
