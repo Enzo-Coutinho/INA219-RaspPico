@@ -28,6 +28,31 @@ void resetINA219(void) {
     set_configuration(&configuration_ina219);
 }
 
+void setBusVoltageRange(enum BUS_VOLTAGE_RANGE range) {
+    configuration_ina219._configuration_bitmap.BRNG = range;
+    set_configuration(&configuration_ina219);
+}
+
+void setShuntVoltageRange(enum PGA_GAIN gain) {
+    configuration_ina219._configuration_bitmap.PG = gain;
+    set_configuration(&configuration_ina219);
+} 
+
+void setBusVoltageResolution(enum ADC_RESOLUTION resolution) {
+    configuration_ina219._configuration_bitmap.BADC = resolution;
+    set_configuration(&configuration_ina219);
+}
+
+void setShuntVoltageResolution(enum ADC_RESOLUTION resolution) {
+    configuration_ina219._configuration_bitmap.SADC = resolution;
+    set_configuration(&configuration_ina219);
+}
+
+void setMode(enum MODES mode) {
+    configuration_ina219._configuration_bitmap.MODES = mode;
+    set_configuration(&configuration_ina219);
+}
+
 float getCurrentINA219(void) {
     int16_t current_raw = read_register(__ADDR_CURRENT);
     return current_raw * current_lsb;
